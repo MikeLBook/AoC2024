@@ -1,10 +1,10 @@
-package day1
+package day01
 
 import java.io.File
 import kotlin.math.abs
 
 fun main() {
-    val lines = File("src/inputs/day01.txt").readLines()
+    val lines = File("src/day01/day01.txt").readLines()
     val listA = mutableListOf<Int>()
     val listB = mutableListOf<Int>()
 
