@@ -1,6 +1,6 @@
 ## Advent of Code 2024
 
-Writing the JS solutions in neovim without an LSP
+Writing the JS solutions in terminal only (tmux and neovim w/out an LSP). AoC is always a good excuse to branch out. 
 
 Kotlin solutions are written in IntelliJ
 
