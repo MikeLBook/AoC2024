@@ -1,36 +1,19 @@
 package day02
 
-import java.io.File
+import day.Day
 import kotlin.math.abs
 
-fun isSafeRow(row: List<Int>): Boolean {
-    var allIncreasing = true
-    var allDecreasing = true
-    var allAdjacent = true
+class Day02: Day("src/day02/day02.txt") {
+    private val lines = input.readLines()
 
-    row.forEachIndexed { i, k ->
-        if (i > 0) {
-            if (k < row[i - 1]) allIncreasing = false
-            if (k > row[i - 1]) allDecreasing = false
-            val difference = abs(k - row[i - 1])
-            if (difference < 1 || difference > 3) allAdjacent = false
-        }
-    }
-
-    return (allIncreasing || allDecreasing) && allAdjacent
-}
-
-fun main() {
-    val lines = File("src/day02/day02.txt").readLines()
-
-    fun part1(): Int = lines.count { line ->
+    override fun doPart1(): Int = lines.count { line ->
         val row = line.split(' ').map { it.toInt() }
         isSafeRow(row)
     }
 
-    fun part2(): Int {
-        var safeRows = mutableListOf<List<Int>>()
-        var unsafeRows = mutableListOf<List<Int>>()
+    override fun doPart2(): Int {
+        val safeRows = mutableListOf<List<Int>>()
+        val unsafeRows = mutableListOf<List<Int>>()
 
         lines.forEach { line ->
             val row = line.split(' ').map { it.toInt() }
@@ -50,6 +33,26 @@ fun main() {
         return safeRows.size + faultTolerantRows.size
     }
 
-    println("Part 1: ${part1()}")
-    println("Part 2: ${part2()}")
+    private fun isSafeRow(numericRow: List<Int>): Boolean {
+        var allIncreasing = true
+        var allDecreasing = true
+        var allAdjacent = true
+
+        numericRow.forEachIndexed { i, k ->
+            if (i > 0) {
+                if (k < numericRow[i - 1]) allIncreasing = false
+                if (k > numericRow[i - 1]) allDecreasing = false
+                val difference = abs(k - numericRow[i - 1])
+                if (difference < 1 || difference > 3) allAdjacent = false
+            }
+        }
+
+        return (allIncreasing || allDecreasing) && allAdjacent
+    }
+}
+
+fun main() {
+    val day = Day02()
+    day.part1()
+    day.part2()
 }
