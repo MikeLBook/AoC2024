@@ -78,6 +78,37 @@ async function day04() {
     }
 
     const part2 = () => {
+        let count = 0
+
+        function isPossibleX(y, x) {
+            return y - 1 >= 0 
+                && x - 1 >= 0
+                && x + 1 < grid.length
+                && y + 1 < grid.length
+        }
+
+        function isValidX(diagonalA, diagonalB) {
+            return isValidDiagonal(diagonalA) && isValidDiagonal(diagonalB)    
+        }
+
+        function isValidDiagonal(diagonal) {
+            return diagonal === 'MAS' || diagonal === 'SAM'
+        }
+
+        for (let y = 0; y < grid.length; y++) {
+            for (let x = 0; x < grid.length; x++) {
+                if (grid[y][x] === 'A' && isPossibleX(y, x)) {
+                    const diagonalA = `${grid[y-1][x-1]}A${grid[y+1][x+1]}`
+                    const diagonalB = `${grid[y+1][x-1]}A${grid[y-1][x+1]}`
+
+                    if (isValidX(diagonalA, diagonalB)) {
+                        count += 1
+                    }
+                }
+            }
+        }
+
+        return count
     }
 
     console.log(`Part 1: ${part1()}`)
