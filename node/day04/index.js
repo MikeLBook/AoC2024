@@ -7,7 +7,7 @@ async function day04() {
     const part1 = () => {
         let count = 0
 
-        function findSequence(y, x, deltaY, deltaX) {
+        function traceStringAlongGrid(y, x, deltaY, deltaX) {
             if (
                 y + (deltaY * 3) >= 0 && 
                 y + (deltaY * 3) < grid.length && 
@@ -16,20 +16,20 @@ async function day04() {
             ) {
                 return `${grid[y][x]}${grid[y + deltaY][x + deltaX]}${grid[y + (deltaY * 2)][x + (deltaX * 2)]}${grid[y + (deltaY * 3)][x + (deltaX * 3)]}`
             } else return ''
-        };
+        }
 
         for (let y = 0; y < grid.length; y++) {
             for (let x = 0; x < grid.length; x++) {
                 if (grid[y][x] === 'X') {
                     count += [
-                        findSequence(y, x, -1, 0),
-                        findSequence(y, x, 1, 0),
-                        findSequence(y, x, 0, -1),
-                        findSequence(y, x, 0, 1),
-                        findSequence(y, x, -1, 1),
-                        findSequence(y, x, 1, 1),
-                        findSequence(y, x, -1, -1),
-                        findSequence(y, x, 1, -1)
+                        traceStringAlongGrid(y, x, -1, 0),
+                        traceStringAlongGrid(y, x, 1, 0),
+                        traceStringAlongGrid(y, x, 0, -1),
+                        traceStringAlongGrid(y, x, 0, 1),
+                        traceStringAlongGrid(y, x, -1, 1),
+                        traceStringAlongGrid(y, x, 1, 1),
+                        traceStringAlongGrid(y, x, -1, -1),
+                        traceStringAlongGrid(y, x, 1, -1)
                     ].filter(word => {
                         return word === 'XMAS'
                     }).length
