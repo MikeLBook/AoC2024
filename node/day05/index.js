@@ -1,5 +1,7 @@
 const fs = require('node:fs/promises')
 
+day05()
+
 async function day05() {
     const data = await fs.readFile('day05.txt', { encoding: 'utf8' })
     const [ orderData, updateData ] = data.split('\n\n')
@@ -16,7 +18,7 @@ async function day05() {
         }
     })
 
-    const sumMiddlePages = (sum, update) => {
+    const sumMiddlePageReducer = (sum, update) => {
         return sum + parseInt(update[Math.floor(update.length / 2)])
     }
 
@@ -32,7 +34,7 @@ async function day05() {
                 if (laterPageNumbers && laterPageNumbers.includes(previousPage)) {
                     pages[index - 1] = currentPage
                     pages[index] = previousPage
-                    index -= 1
+                    if (index > 1) index -= 1
                 } else index += 1
             }
         }
@@ -52,7 +54,7 @@ async function day05() {
             if (isCorrectUpdate) return pages
         })
         .filter(result => (result))
-        .reduce(sumMiddlePages, 0)
+        .reduce(sumMiddlePageReducer, 0)
     }
 
     const part2 = () => {
@@ -68,11 +70,9 @@ async function day05() {
             if (isIncorrectUpdate) return correctPageOrder(pages)
         })
         .filter(result => (result))
-        .reduce(sumMiddlePages, 0)
+        .reduce(sumMiddlePageReducer, 0)
     }
 
     console.log(`Part 1: ${part1()}`)
     console.log(`Part 2: ${part2()}`)
 }
-
-day05()
