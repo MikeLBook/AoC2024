@@ -16,6 +16,29 @@ async function day05() {
         }
     })
 
+    const sumMiddlePages = (sum, update) => {
+        return sum + parseInt(update[Math.floor(update.length / 2)])
+    }
+
+    const correctPageOrder = (pages) => {
+        let index = 0
+        while (index < pages.length) {
+            if (index === 0) {
+                index += 1
+            } else {
+                let previousPage = pages[index -1]
+                let currentPage = pages[index]
+                const laterPageNumbers = orderMap.get(currentPage)
+                if (laterPageNumbers && laterPageNumbers.includes(previousPage)) {
+                    pages[index - 1] = currentPage
+                    pages[index] = previousPage
+                    index -= 1
+                } else index += 1
+            }
+        }
+        return pages 
+    }
+
     const part1 = () => {
         return updateData.split('\n').map(update => {
             if (update.length === 0) return
@@ -29,10 +52,23 @@ async function day05() {
             if (isCorrectUpdate) return pages
         })
         .filter(result => (result))
-        .reduce((sum, update) => sum + parseInt(update[Math.floor(update.length / 2)]), 0)
+        .reduce(sumMiddlePages, 0)
     }
 
     const part2 = () => {
+        return updateData.split('\n').map(update => {
+            if (update.length === 0) return
+            const pages = update.split(',')
+            const isIncorrectUpdate = pages.some((page, index, arr) => {
+                if (index === 0) return false
+                const laterPageNumbers = orderMap.get(page)
+                if (!laterPageNumbers) return false
+                return laterPageNumbers.includes(arr[index - 1])
+            })
+            if (isIncorrectUpdate) return correctPageOrder(pages)
+        })
+        .filter(result => (result))
+        .reduce(sumMiddlePages, 0)
     }
 
     console.log(`Part 1: ${part1()}`)
