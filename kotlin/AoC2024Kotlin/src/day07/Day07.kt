@@ -23,14 +23,13 @@ fun List<Int>.incrementAsBase(base: Int): List<Int> {
 
 class Day07: Day("src/day07/input.txt") {
     private val lines = input.readLines()
-
     private fun solveForOperatorCount(n: Int): Long = lines.sumOf { line ->
         val (e, o) = line.split(": ")
         val expectedResult = e.toLong()
         val operands = o.split(" ").map { it.toLong() }
+
         val initialOperatorArrangement = List(operands.size - 1) { 0 }
         val finalOperatorArrangement = List(operands.size - 1) { n - 1 }
-
         var operators = List(initialOperatorArrangement.size) { initialOperatorArrangement[it] }
         var calibrated: Boolean? = null
         while (calibrated == null) {
@@ -50,14 +49,8 @@ class Day07: Day("src/day07/input.txt") {
         }
         if (calibrated) expectedResult else 0
     }
-
-    override fun doPart1(): Any {
-        return solveForOperatorCount(2)
-    }
-
-    override fun doPart2(): Any {
-        return solveForOperatorCount(3)
-    }
+    override fun doPart1() = solveForOperatorCount(2)
+    override fun doPart2() = solveForOperatorCount(3)
 }
 
 fun main() {
