@@ -1,8 +1,6 @@
 ## Advent of Code 2024
 
-Writing the JS solutions in terminal only (tmux and neovim w/out an LSP). 
-AoC is always a good excuse to branch out. 
-Kotlin solutions are written sensibly in IntelliJ.
+Writing the JS solutions in terminal only as a means to practice more with tmux and neovim.
 
 ### Day 1
 [JavaScript](https://github.com/MikeLBook/AoC2024/blob/main/node/day01/index.js) |
