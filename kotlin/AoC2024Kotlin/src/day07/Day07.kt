@@ -13,44 +13,45 @@ import day.Day
  * Part 2 only required a trinary solution where operations from [0, 0, 0] to [2, 2, 2] should be exhausted.
  */
 
+fun List<Int>.incrementAsBase(base: Int): List<Int> {
+    var basedString = joinToString("")
+    val decimal = basedString.toInt(base)
+    val incremented = decimal + 1
+    basedString = incremented.toString(base).padStart(size, '0')
+    return basedString.split("").filter { it.isNotBlank() }.map { it.toInt() }
+}
+
 class Day07: Day("src/day07/input.txt") {
     private val lines = input.readLines()
 
-    private fun solveForOperatorCount(n: Int): Long {
-        return lines.sumOf { line ->
-            val (e, o) = line.split(": ")
-            val expected = e.toLong()
-            val operands = o.split(" ").map { it.toLong() }
-            val start = Array(operands.size - 1) { 0 }
-            val end = Array(operands.size - 1) { n - 1 }
+    private fun solveForOperatorCount(n: Int): Long = lines.sumOf { line ->
+        val (e, o) = line.split(": ")
+        val expected = e.toLong()
+        val operands = o.split(" ").map { it.toLong() }
+        val start = List(operands.size - 1) { 0 }
+        val end = List(operands.size - 1) { n - 1 }
 
-            var isValid = false
-            var isExhausted = false
-            var operators = start.clone()
-            while (!isValid && !isExhausted) {
-                val result = operands.reduceIndexed { index, acc, l ->
-                    when (operators[index - 1]) {
-                        0 -> acc * l
-                        1 -> acc + l
-                        2 -> (acc.toString() + l.toString()).toLong()
-                        else -> throw IllegalArgumentException("Unspecified operation for $operators[index - 1]")
-                    }
-                }
-                when {
-                    result == expected -> isValid = true
-                    operators.contentEquals(end) -> isExhausted = true
-                    else -> {
-                        // Increment the binary/trinary representation to get the next arrangement of operators
-                        var basedString = operators.joinToString("")
-                        val int = basedString.toInt(n)
-                        val incremented = int + 1
-                        basedString = incremented.toString(n).padStart(operators.size, '0')
-                        operators = basedString.split("").filter { it.isNotBlank() }.map { it.toInt() }.toTypedArray()
-                    }
+        var isValid = false
+        var isExhausted = false
+        var operators = List(start.size) { start[it] }
+
+        while (!isValid && !isExhausted) {
+            val result = operands.reduceIndexed { index, acc, l ->
+                when (operators[index - 1]) {
+                    0 -> acc * l
+                    1 -> acc + l
+                    2 -> (acc.toString() + l.toString()).toLong()
+                    else -> throw IllegalArgumentException("Unspecified operation for $operators[index - 1]")
                 }
             }
-            if (isValid) expected else 0
+            when {
+                result == expected -> isValid = true
+                operators == end -> isExhausted = true
+                else -> operators = operators.incrementAsBase(n)
+            }
         }
+
+        if (isValid) expected else 0
     }
 
     override fun doPart1(): Any {
