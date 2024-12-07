@@ -26,32 +26,29 @@ class Day07: Day("src/day07/input.txt") {
 
     private fun solveForOperatorCount(n: Int): Long = lines.sumOf { line ->
         val (e, o) = line.split(": ")
-        val expected = e.toLong()
+        val expectedResult = e.toLong()
         val operands = o.split(" ").map { it.toLong() }
-        val start = List(operands.size - 1) { 0 }
-        val end = List(operands.size - 1) { n - 1 }
+        val initialOperatorArrangement = List(operands.size - 1) { 0 }
+        val finalOperatorArrangement = List(operands.size - 1) { n - 1 }
 
-        var isValid = false
-        var isExhausted = false
-        var operators = List(start.size) { start[it] }
-
-        while (!isValid && !isExhausted) {
-            val result = operands.reduceIndexed { index, acc, l ->
+        var operators = List(initialOperatorArrangement.size) { initialOperatorArrangement[it] }
+        var calibrated: Boolean? = null
+        while (calibrated == null) {
+            val result = operands.reduceIndexed { index, total, operand ->
                 when (operators[index - 1]) {
-                    0 -> acc * l
-                    1 -> acc + l
-                    2 -> (acc.toString() + l.toString()).toLong()
+                    0 -> total * operand
+                    1 -> total + operand
+                    2 -> (total.toString() + operand.toString()).toLong()
                     else -> throw IllegalArgumentException("Unspecified operation for $operators[index - 1]")
                 }
             }
             when {
-                result == expected -> isValid = true
-                operators == end -> isExhausted = true
+                result == expectedResult -> calibrated = true
+                operators == finalOperatorArrangement -> calibrated = false
                 else -> operators = operators.incrementAsBase(n)
             }
         }
-
-        if (isValid) expected else 0
+        if (calibrated) expectedResult else 0
     }
 
     override fun doPart1(): Any {
