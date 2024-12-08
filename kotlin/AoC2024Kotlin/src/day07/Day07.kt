@@ -6,8 +6,8 @@ import day.Day
  * Part 1 started with a cheeky idea. Since there were only two possible operations,
  * I decided to increment through each possibility in a binary fashion.
  * I could see additional operators coming from a mile away for part 2, but wanted to follow the thread.
- * If an equation requires 3 operators then the start would be [0, 0, 0] and the end would be [1, 1, 1] to exhaust
- * all possible equations from +, +, + to *, *, *
+ * If an equation has 4 operands requiring 3 operators then the start would be [0, 0, 0],
+ * and the end would be [1, 1, 1] to exhaust all possible equations from +, +, + to *, *, *
  *
  * The solution I came up with was more extensible than I initially thought it would be.
  * Part 2 only required a trinary solution where operations from [0, 0, 0] to [2, 2, 2] should be exhausted.
