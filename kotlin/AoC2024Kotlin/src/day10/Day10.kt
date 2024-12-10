@@ -27,30 +27,24 @@ class Day10: Day("src/day10/input.txt") {
         }
     }
 
-    private fun generateIdealRoutes(coordinate: Coordinate, isPartTwo: Boolean): List<List<Coordinate>> {
-        val routes: MutableList<List<Coordinate>> = mutableListOf()
+    private fun generateRoutes(coordinate: Coordinate, isPartTwo: Boolean): List<List<Coordinate>> = buildList {
         fun buildRoutes(currentRoute: List<Coordinate>) {
             val nextLocations = getNextLocations(currentRoute.last())
             when {
                 nextLocations.isEmpty() -> {
-                    if (currentRoute.size == 10) {
-                        if (isPartTwo || routes.none { it.last() == currentRoute.last() }) {
-                            routes.add(currentRoute)
-                        }
+                    if (currentRoute.size == 10 && (isPartTwo || none { it.last() == currentRoute.last() })) {
+                        add(currentRoute)
                     }
                 }
                 nextLocations.size == 1 -> buildRoutes(currentRoute + nextLocations.first())
-                else -> {
-                    nextLocations.forEach { buildRoutes(currentRoute + it) }
-                }
+                else -> nextLocations.forEach { buildRoutes(currentRoute + it) }
             }
         }
         buildRoutes(listOf(coordinate))
-        return routes
     }
 
-    override fun doPart1() = trailheads.map { generateIdealRoutes(it, false) }.sumOf { it.size }
-    override fun doPart2() = trailheads.map { generateIdealRoutes(it, true) }.sumOf { it.size }
+    override fun doPart1() = trailheads.map { generateRoutes(it, false) }.sumOf { it.size }
+    override fun doPart2() = trailheads.map { generateRoutes(it, true) }.sumOf { it.size }
 }
 
 fun main() {
