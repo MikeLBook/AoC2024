@@ -46,26 +46,29 @@ class Day09: Day("src/day09/input.txt") {
 
     override fun doPart2(): Long {
         val blocks = getBlocksFromDisk()
-        var block: Pair<String, List<Int>> = " " to emptyList()
+        var fileID: Pair<String, List<Int>> = " " to emptyList()
+        var lastMovedFileID = Int.MAX_VALUE
         for (i in blocks.indices.reversed()) {
             val nextBlock = blocks[i]
-            if (nextBlock != block.first) {
-                if (block.first != ".") {
+            if (nextBlock != fileID.first) {
+                if (fileID.first.toIntOrNull() != null && fileID.first.toInt() < lastMovedFileID && fileID.second.isNotEmpty()) {
                     val freeBlockRanges = findFreeBlockRanges(blocks)
-                    val freeBlockRange = freeBlockRanges.firstOrNull { block.second.size <= it.toList().size }
-                    if (freeBlockRange != null && block.second.isNotEmpty() && freeBlockRange.last < block.second.last()) {
-                        val freeBlocks = freeBlockRange.toList()
-                        for (j in block.second.indices) {
-                            val blockIndex = block.second[j]
+                    freeBlockRanges.firstOrNull {
+                        fileID.second.size <= it.toList().size && it.max() < fileID.second.min()
+                    }?.let {
+                        val freeBlocks = it.toList()
+                        for (j in fileID.second.indices) {
+                            val blockIndex = fileID.second[j]
                             val emptyBlockIndex = freeBlocks[j]
                             blocks[emptyBlockIndex] = blocks[blockIndex]
                             blocks[blockIndex] = "."
                         }
+                        lastMovedFileID = fileID.first.toInt()
                     }
                 }
-                block = nextBlock to listOf(i)
+                fileID = nextBlock to listOf(i)
             } else {
-                block = nextBlock to block.second + listOf(i)
+                fileID = nextBlock to fileID.second + listOf(i)
             }
         }
 
