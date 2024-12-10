@@ -1,6 +1,6 @@
 package day02
 
-import day.Day
+import models.Day
 import kotlin.math.abs
 
 class Day02: Day("src/day02/day02.txt") {

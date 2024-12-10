@@ -1,8 +1,7 @@
 package day08
 
-import day.Day
-
-data class Coordinate(val x: Int, val y: Int)
+import models.Coordinate
+import models.Day
 
 class Day08: Day("src/day08/input.txt") {
     private val grid = input.readLines().map { it.split("").filter { char -> char.isNotBlank() } }

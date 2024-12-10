@@ -1,6 +1,6 @@
 package day09
 
-import day.Day
+import models.Day
 
 class Day09: Day("src/day09/input.txt") {
     private val disk = input.readText()

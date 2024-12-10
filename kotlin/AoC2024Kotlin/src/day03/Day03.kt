@@ -1,6 +1,6 @@
 package day03
 
-import day.Day
+import models.Day
 
 /**
  * I was relentlessly shamed for using Regex in my JS solution...

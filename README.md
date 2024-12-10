@@ -29,3 +29,9 @@ Writing the JS solutions in terminal only as a means to practice more with tmux 
 
 ### Day 8
 [Kotlin](https://github.com/MikeLBook/AoC2024/blob/main/kotlin/AoC2024Kotlin/src/day08/Day08.kt)
+
+### Day 9
+[Kotlin](https://github.com/MikeLBook/AoC2024/blob/main/kotlin/AoC2024Kotlin/src/day09/Day09.kt)
+
+### Day 10
+[Kotlin](https://github.com/MikeLBook/AoC2024/blob/main/kotlin/AoC2024Kotlin/src/day10/Day10.kt)

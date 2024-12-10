@@ -1,4 +1,4 @@
-package day
+package models
 
 import java.io.File
 

@@ -1,6 +1,6 @@
 package day07
 
-import day.Day
+import models.Day
 
 /**
  * Part 1 started with a cheeky idea. Since there were only two possible operations,
