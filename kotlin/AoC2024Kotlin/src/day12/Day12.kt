@@ -24,8 +24,15 @@ data class Region(
                 if (lastRow.isEmpty()) {
                     sides += 2 // left and right borders beginning with the top row
                 } else {
-                    if (row.value.first().x != lastRow.firstOrNull()?.x) sides += 2
-                    if (row.value.last().x != lastRow.lastOrNull()?.x) sides += 2
+                    row.value.forEachIndexed { index, coordinate ->
+                        when {
+                            index == 0 && coordinate.x != lastRow.first().x -> sides += 2 // perpendicular outer border
+                            index == row.value.size - 1 && coordinate.x != lastRow.last().x -> sides += 2 // perpendicular outer border
+                            else -> {
+                                
+                            }
+                        }
+                    }
                 }
                 lastRow = row.value
             }
