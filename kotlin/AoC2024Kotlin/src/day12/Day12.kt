@@ -14,22 +14,20 @@ data class Region(
     val sides: Int
         get() {
             var sides = 0
-            var leftMostXPosition = -1
-            var rightMostXPosition = -1
             val plotRows = plots.groupBy({ it.y }, { it }).mapValues { (_, coords) ->
                 coords.sortedBy { it.x }
             }
-            plotRows.entries.forEach {
-                if (it.key == plotRows.keys.first()) sides++
-                if (it.key == plotRows.keys.last()) sides++
-                if (it.value.first().x != leftMostXPosition) {
-                    sides++
-                    leftMostXPosition = it.value.first().x
+            var lastRow = emptyList<Coordinate>()
+            plotRows.entries.forEach { row ->
+                if (row.key == plotRows.keys.first()) sides++ // top border
+                if (row.key == plotRows.keys.last()) sides++ // bottom border
+                if (lastRow.isEmpty()) {
+                    sides += 2 // left and right borders beginning with the top row
+                } else {
+                    if (row.value.first().x != lastRow.firstOrNull()?.x) sides += 2
+                    if (row.value.last().x != lastRow.lastOrNull()?.x) sides += 2
                 }
-                if (it.value.last().x != rightMostXPosition) {
-                    sides++
-                    rightMostXPosition = it.value.last().x
-                }
+                lastRow = row.value
             }
             return sides
         }
@@ -77,9 +75,12 @@ class Day12: Day("src/day12/example.txt") {
         }
         return regions.values.sumOf { it.area * it.perimeter }
     }
-
     override fun doPart2(): Any {
-       return regions.values.sumOf { it.area * it.sides }
+        regions.values.forEach {
+            println("${it.plant}: ${it.sides}")
+        }
+
+        return regions.values.sumOf { it.area * it.sides }
     }
 }
 
